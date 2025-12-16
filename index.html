@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyleaMUN Committee Presentations</title>
+  <style>
+    /* --- CSS VARIABLES & PALETTE --- */
+    :root {
+      /* Background for the whole page (Light Gray) */
+      --page-bg: #f4f4f4;
+      
+      /* THEME COLORS */
+      --brand-primary: #005b63; /* Deep Teal */
+      --brand-accent: #c5a017;  /* Golden Bronze */
+      
+      /* Updated Header Color to match the PNG cream background */
+      --header-match: #fdfbf7; 
+      
+      --text-dark: #333;
+      --text-light: #fff;
+    }
+
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      background: var(--page-bg); 
+      color: var(--text-dark); 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- HEADER STYLES --- */
+    .letterhead { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      background-color: var(--header-match); 
+      border-bottom: 4px solid var(--brand-primary); 
+      padding: 15px 30px; 
+      flex-wrap: wrap; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .address, .contact { 
+      width: 30%; 
+      font-size: 0.95rem; 
+      color: #555;
+    }
+    
+    .contact { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: flex-end; 
+      text-align: right;
+    }
+    
+    .logo-container { width: 140px; text-align: center; }
+    
+    .logo { 
+      width: 140px; 
+      height: auto; 
+      display: block; 
+      /* mix-blend-mode helps the cream background of the image 
+         blend into the cream background of the header */
+      mix-blend-mode: multiply; 
+    }
+    
+    .letterhead a { 
+      color: var(--brand-primary); 
+      text-decoration: none; 
+      font-weight: 600;
+    }
+
+    /* --- MAIN LAYOUT --- */
+    main { 
+      max-width: 1000px; 
+      width: 100%;
+      margin: 40px auto; 
+      padding: 0 20px; 
+      box-sizing: border-box;
+      flex: 1; 
+    }
+
+    .titles-container {
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 30px;
+    }
+
+    h1.page-title {
+      color: var(--brand-primary);
+      margin-bottom: 15px;
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-subtitle a {
+      color: var(--brand-primary);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px dotted var(--brand-primary);
+      transition: color 0.2s;
+    }
+
+    .page-subtitle a:hover {
+      color: var(--brand-accent);
+      border-bottom-style: solid;
+    }
+
+    /* --- COLLAPSIBLE STYLING --- */
+    details {
+      background: #fff;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+
+    summary {
+      background-color: var(--brand-primary);
+      color: var(--text-light);
+      padding: 18px 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      list-style: none; 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    summary:hover {
+      background-color: var(--brand-accent);
+      color: #fff;
+    }
+
+    summary::after {
+      content: '+'; 
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-left: 15px;
+    }
+
+    details[open] summary {
+      border-bottom: 4px solid var(--brand-accent);
+    }
+
+    details[open] summary::after {
+      content: '-';
+    }
+
+    /* --- CAROUSEL STYLING --- */
+    .carousel-container {
+      padding: 30px;
+      text-align: center;
+      background: #fff;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-image {
+      max-width: 100%;
+      height: auto;
+      max-height: 80vh; 
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      border: 1px solid #eee;
+    }
+
+    .carousel-controls {
+      margin-top: 25px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 50px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nav-btn {
+      background-color: var(--brand-primary);
+      color: white;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+      user-select: none;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--brand-accent);
+      transform: scale(1.05);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .page-indicator {
+      font-weight: 700;
+      color: var(--brand-primary);
+      font-size: 1rem;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background-color: var(--text-dark);
+      color: #ccc;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9rem;
+      margin-top: 50px;
+      border-top: 4px solid var(--brand-accent);
+    }
+    
+    footer strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="letterhead">
+    <div class="address"><strong>4 Isminis Str.</strong><br>Pylaia, Thessaloniki - 55535</div>
+    <div class="logo-container">
+      <img src="logo.png" alt="PyleaMUN Logo" class="logo"/>
+    </div>
+    <div class="contact">
+      <div>📞 +30 2310329199</div>
+      <div>📧 <a href="mailto:pyleamun@gmail.com">pyleamun@gmail.com</a></div>
+      <div>🌐 <a href="#">pyleamun.github.io</a></div>
+    </div>
+  </div>
+
+  <main id="gallery-container">
+    <div class="titles-container">
+      <h1 class="page-title">PyleaMUN Committee Presentations</h1>
+      <div class="page-subtitle">
+        Always consult the relevant 
+        <a href="https://pyleamun.github.io/procedure2026/" target="_blank">Rules of Procedure</a>, 
+        <a href="https://pyleamun.github.io/Nato-Rules/" target="_blank">Nato Rules of Procedure</a>, 
+        <a href="https://pyleamun.github.io/security-procedure/" target="_blank">Security Council Rules of Procedure</a> 
+        and first and foremost the 
+        <a href="https://pyleamun.github.io/study-guides2026/" target="_blank">Study Guides</a>.
+      </div>
+    </div>
+    
+    </main>
+
+  <footer>
+    Devised by <strong>Panagiotis Domvros</strong>, Principal of 1st Middle School of Pylea and PyleaMUN President.<br>
+    All Rights Reserved.
+  </footer>
+
+  <script>
+    // Configuration for the 5 sets of images
+    const galleriesConfig = [
+      { 
+        id: 0, 
+        title: "A Delegate's Guide to Changing the World (UNEP, WHO, HRC, UNESCO, UN WOMEN, ECOSOC)", 
+        prefix: "a-_Page_", 
+        count: 28 
+      },
+      { 
+        id: 1, 
+        title: "Mastering NATO", 
+        prefix: "n-_Page_", 
+        count: 15 
+      },
+      { 
+        id: 2, 
+        title: "Navigating the Security Council", 
+        prefix: "sc-_Page_", 
+        count: 15 
+      },
+      { 
+        id: 3, 
+        title: "The Arena of Ideas - GA Assembly", 
+        prefix: "ga-_Page_", 
+        count: 12 
+      },
+      { 
+        id: 4, 
+        title: "Making History - The Congress of Corinth (Historical Crisis Committee)", 
+        prefix: "h-_Page_", 
+        count: 15 
+      }
+    ];
+
+    // State to track current page for each gallery
+    const galleryState = galleriesConfig.map(() => 1);
+
+    const container = document.getElementById('gallery-container');
+
+    function padNumber(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    function updateGallery(galleryIndex) {
+      const config = galleriesConfig[galleryIndex];
+      const currentPage = galleryState[galleryIndex];
+      
+      const imgEl = document.getElementById(`img-${galleryIndex}`);
+      imgEl.src = `${config.prefix}${padNumber(currentPage)}.png`;
+      imgEl.alt = `${config.title} - Page ${currentPage}`;
+
+      const counterEl = document.getElementById(`count-${galleryIndex}`);
+      counterEl.textContent = `Page ${currentPage} of ${config.count}`;
+    }
+
+    function changePage(galleryIndex, direction) {
+      const config = galleriesConfig[galleryIndex];
+      let newPage = galleryState[galleryIndex] + direction;
+
+      // Loop around logic
+      if (newPage < 1) newPage = config.count; 
+      if (newPage > config.count) newPage = 1; 
+
+      galleryState[galleryIndex] = newPage;
+      updateGallery(galleryIndex);
+    }
+
+    // Build the HTML structure
+    galleriesConfig.forEach((set, index) => {
+      const details = document.createElement('details');
+      
+      const summary = document.createElement('summary');
+      summary.textContent = set.title;
+      details.appendChild(summary);
+
+      const carouselContainer = document.createElement('div');
+      carouselContainer.className = 'carousel-container';
+
+      // HTML Template
+      carouselContainer.innerHTML = `
+        <img id="img-${index}" class="carousel-image" src="${set.prefix}01.png" alt="${set.title} Page 1" loading="lazy" />
+        <div class="carousel-controls">
+          <button class="nav-btn" onclick="changePage(${index}, -1)" title="Previous Page">&#10094;</button>
+          <span id="count-${index}" class="page-indicator">Page 1 of ${set.count}</span>
+          <button class="nav-btn" onclick="changePage(${index}, 1)" title="Next Page">&#10095;</button>
+        </div>
+      `;
+
+      details.appendChild(carouselContainer);
+      container.appendChild(details);
+    });
+  </script>
+</body>
+</html>
