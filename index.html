@@ -301,7 +301,9 @@
         id: 2, 
         title: "Navigating the Security Council", 
         prefix: "sc-_Page_", 
-        count: 15 
+        count: 16,
+        // Custom array to handle the 12b insertion
+        customPages: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "12b", "13", "14", "15"]
       },
       { 
         id: 3, 
@@ -331,7 +333,11 @@
       const currentPage = galleryState[galleryIndex];
       
       const imgEl = document.getElementById(`img-${galleryIndex}`);
-      imgEl.src = `${config.prefix}${padNumber(currentPage)}.png`;
+      
+      // Determine filename: check if custom array exists, else use standard padding
+      const pageSuffix = config.customPages ? config.customPages[currentPage - 1] : padNumber(currentPage);
+      
+      imgEl.src = `${config.prefix}${pageSuffix}.png`;
       imgEl.alt = `${config.title} - Page ${currentPage}`;
 
       const counterEl = document.getElementById(`count-${galleryIndex}`);
@@ -361,9 +367,12 @@
       const carouselContainer = document.createElement('div');
       carouselContainer.className = 'carousel-container';
 
+      // Initial suffix for page 1
+      const initialSuffix = set.customPages ? set.customPages[0] : "01";
+
       // HTML Template
       carouselContainer.innerHTML = `
-        <img id="img-${index}" class="carousel-image" src="${set.prefix}01.png" alt="${set.title} Page 1" loading="lazy" />
+        <img id="img-${index}" class="carousel-image" src="${set.prefix}${initialSuffix}.png" alt="${set.title} Page 1" loading="lazy" />
         <div class="carousel-controls">
           <button class="nav-btn" onclick="changePage(${index}, -1)" title="Previous Page">&#10094;</button>
           <span id="count-${index}" class="page-indicator">Page 1 of ${set.count}</span>
